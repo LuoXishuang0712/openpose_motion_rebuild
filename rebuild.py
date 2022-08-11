@@ -1,12 +1,31 @@
 from copy import deepcopy
 import numpy as np
 
+def motion_adjust(motion : np.ndarray, angle):
+    '''params:
+       motion: the motion to be adjusted
+       angle: the adjust angle in degree, 0 <= theta < 360
+       return:
+       the corrected motion
+    '''
+    assert motion.shape[0] == 25
+    motion = deepcopy(motion)
+    angle = util.degree2radius(util.angle_normalization(angle))
+    x, y = deepcopy(motion.T[:2])
+    motion.T[0] = x * np.cos(angle) + y * np.sin(angle)
+    motion.T[1] = x * np.cos(angle) - y * np.sin(angle)
+    return motion
+
 class util:
     @staticmethod
     def angle_normalization(angle):
         while(angle < 0):
             angle += 360
         return angle % 360
+    
+    @staticmethod
+    def degree2radius(degree):
+        return degree * np.pi / 180
 
 class CapContainer:
     def __init__(self, angle, data : np.ndarray) -> None:
@@ -31,6 +50,9 @@ class rebuild2d:
     _cannot_ignore = [0, 1, 2, 5, 8] # joints where are used for location
 
     def __init__(self, alpha, beta) -> None:
+        '''params:
+           alpha, beta: the two angles of cameras in degree
+        '''
         alpha = util.angle_normalization(alpha)
         beta = util.angle_normalization(beta)
         assert alpha != beta and alpha != beta - 180
@@ -72,7 +94,7 @@ class rebuild2d:
             
     def calc_depth_line(self, alpha_line : np.ndarray, beta_line : np.ndarray) -> np.ndarray:
         assert alpha_line[2] != 0 and beta_line[2] != 0
-        tri_angle = self._degree2radius(self.alpha - self.beta)
+        tri_angle = util.degree2radius(self.alpha - self.beta)
         result = np.zeros((3))
         result[0] = alpha_line[0] # x
         result[2] = np.mean([alpha_line[1], beta_line[1]]) # z
@@ -91,6 +113,3 @@ class rebuild2d:
             # print("method 3 ", end='')
         # print(result[1])
         return result # [x, y, z] about the alpha plane
-    
-    def _degree2radius(self, degree):
-        return degree * np.pi / 180
