@@ -1,13 +1,18 @@
-from importop import op
+from importop import importop
 import numpy as np
 import cv2
 
+openpose_base_path = "/home/luoxishuang/openpose/"
+op = importop(openpose_base_path + "build/python/")()
+
 class op_container:
-    def __init__(self, model_path='./models/') -> None:
+    def __init__(self, model_path : str='models/') -> None:
         self.datum = None
         self.opWrapper = op.WrapperPython()
         params = dict()
+        model_path = model_path if model_path[0] == "/" else openpose_base_path + model_path
         params['model_folder'] = model_path
+        # params['net_resolution'] = '320x176'  # optimize for fewer GPU memory
         self.opWrapper.configure(params)
         self.opWrapper.start()
     

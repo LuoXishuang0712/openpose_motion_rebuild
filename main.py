@@ -11,11 +11,11 @@ body_line = [
 ]
 
 if __name__ == "__main__":
-    recg = op_container("../openpose/models/")
-    recg.setImage("./imgs/keqing_left_side.jpg")
+    recg = op_container()
+    recg.setImage("./imgs/keqing_left_side_pose.jpg")
     left = recg.getKeyPoint()
     # cv2.imwrite("./left.jpg", recg.getImage())
-    recg.setImage("./imgs/keqing_right_side.jpg")
+    recg.setImage("./imgs/keqing_right_side_pose.jpg")
     right = recg.getKeyPoint()
     # cv2.imwrite("./right.jpg", recg.getImage())
 
@@ -26,9 +26,11 @@ if __name__ == "__main__":
     out = rebuilder.calc_depth(left_cap, right_cap)
     print(out)
 
-    out = motion_adjust(out, 45)
+    out = motion_adjust(out, -45)
 
     print(out)
+
+    np.save("./3d_motion.npy", out)
 
     line = []
     for i in range(len(body_line)):

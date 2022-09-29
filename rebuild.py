@@ -5,6 +5,7 @@ def motion_adjust(motion : np.ndarray, angle):
     '''params:
        motion: the motion to be adjusted
        angle: the adjust angle in degree, 0 <= theta < 360
+       alert: this function only adjust motion on the X-Y flat
        return:
        the corrected motion
     '''
@@ -12,8 +13,8 @@ def motion_adjust(motion : np.ndarray, angle):
     motion = deepcopy(motion)
     angle = util.degree2radius(util.angle_normalization(angle))
     x, y = deepcopy(motion.T[:2])
-    motion.T[0] = x * np.cos(angle) + y * np.sin(angle)
-    motion.T[1] = x * np.cos(angle) - y * np.sin(angle)
+    motion.T[0] = x * np.cos(angle) - y * np.sin(angle)
+    motion.T[1] = x * np.sin(angle) + y * np.cos(angle)
     return motion
 
 class util:
