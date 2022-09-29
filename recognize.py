@@ -1,4 +1,7 @@
-from importop import importop
+try:
+    from .importop import importop
+except ImportError:
+    from importop import importop
 import numpy as np
 import cv2
 from typing import Union
