@@ -1,6 +1,7 @@
 from importop import importop
 import numpy as np
 import cv2
+from typing import Union
 
 openpose_base_path = "/home/luoxishuang/openpose/"
 op = importop(openpose_base_path + "build/python/")()
@@ -16,7 +17,7 @@ class op_container:
         self.opWrapper.configure(params)
         self.opWrapper.start()
     
-    def setImage(self, img):
+    def setImage(self, img: Union[str, np.ndarray]):
         if isinstance(img, str):
             img = cv2.imread(img)
         if not isinstance(img, np.ndarray):
