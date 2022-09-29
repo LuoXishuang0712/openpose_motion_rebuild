@@ -11,7 +11,7 @@ body_line = [
 ]
 
 if __name__ == "__main__":
-    recg = op_container()
+    recg = op_container("/home/luoxishuang/openpose/")
     recg.setImage("./imgs/keqing_left_side_pose.jpg")
     left = recg.getKeyPoint()
     # cv2.imwrite("./left.jpg", recg.getImage())
