@@ -21,7 +21,8 @@ if __name__ == "__main__":
     for file in os.listdir(test_folder):
         if file[:get_last_dot(file)].endswith("_reg") or file[get_last_dot(file):] == ".npy":
             continue
-        recg = op_container("../openpose/models/")
+        print(file)
+        recg = op_container("/home/luoxishuang/openpose/")
         recg.setImage(test_folder + file)
         print(recg.getKeyPoint())
         np.save(test_folder + file[:get_last_dot(file)] + ".npy", recg.getKeyPoint())

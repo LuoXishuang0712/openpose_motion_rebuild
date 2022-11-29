@@ -102,15 +102,10 @@ class rebuild2d:
         p = -beta_line[0]
         q = alpha_line[0]
         if p > 0 and q < 0:
-            vertical_point = p * (np.cos(tri_angle) ** -1)
-            if q < vertical_point:
-                result[1] = q * np.tan(tri_angle) - q * (np.cos(tri_angle) * np.sin(tri_angle)) ** -1 + p * (np.sin(tri_angle) ** -1)
-                # print("method 1 ", end='')
-            else:
-                result[1] = p * (np.sin(tri_angle) ** -1) - q * (np.cos(tri_angle) * np.sin(tri_angle)) ** -1 + q * np.tan(tri_angle)
-                # print("method 2 ", end='')
+            result[1] = q * np.tan(tri_angle) - q * (np.cos(tri_angle) * np.sin(tri_angle)) ** -1 + p * (np.sin(tri_angle) ** -1)
+            # print("method 1 ", end='')
         else:
             result[1] = p * (np.sin(tri_angle) ** -1) + q * (np.tan(tri_angle) ** -1)
-            # print("method 3 ", end='')
+            # print("method 2 ", end='')
         # print(result[1])
         return result # [x, y, z] about the alpha plane
